@@ -1,11 +1,20 @@
-spring:
-  config:
-    import: optional:credentials.yaml
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/authorization_server
+spring:
+  profiles:
+    active: dev
   mail:
     host: smtp.gmail.com
     port: 584
     test-connection: true
 
+  sql:
+    init:
+      mode: always
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  http2:
+    enabled: true
+  port: 9080

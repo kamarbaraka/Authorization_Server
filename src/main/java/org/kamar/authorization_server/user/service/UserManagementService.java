@@ -11,5 +11,5 @@ import org.kamar.authorization_server.user.exception.UserException;
 
 public interface UserManagementService {
 
-    void registerUser(UserRegistrationDto userRegistrationDto) throws UserException;
+    void registerUser(UserRegistrationDto userRegistrationDto) ;
 }

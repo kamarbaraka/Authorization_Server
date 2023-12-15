@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: optional:credentials.yaml
+
+  datasource:
+    url: ${app.init.db-url}/authorization_server
+  mail:
+    host: smtp.gmail.com
+    port: 584
+    test-connection: true
+
