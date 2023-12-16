@@ -26,10 +26,10 @@ public class UserManagementController {
 
     @PostMapping(name = "reg", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(
-            tags = {"User Management"}, summary = "Api to register a user",
+            tags = {"User Management."}, summary = "Api to register a user",
             description = "Register a user through this Api."
     )
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     public ResponseEntity<Void> registerUser(@RequestBody UserRegistrationDto userRegistrationDto){
 
