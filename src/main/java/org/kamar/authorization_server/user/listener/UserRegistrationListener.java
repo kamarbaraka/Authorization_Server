@@ -3,7 +3,7 @@ package org.kamar.authorization_server.user.listener;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.user.data.UserRegistrationDto;
-import org.kamar.authorization_server.user.entity.User;
+import org.kamar.authorization_server.user.entity.AppUser;
 import org.kamar.authorization_server.user.event.UserRegistrationEvent;
 import org.kamar.authorization_server.user.repository.UserRepository;
 import org.springframework.context.event.EventListener;
@@ -29,12 +29,12 @@ public class UserRegistrationListener {
         /*encode the password*/
         String encodedPassword = passwordEncoder.encode(registrationDto.password());
 
-        User user = new User();
-        user.setUsername(registrationDto.username());
-        user.setFirstname(registrationDto.firstname());
-        user.setLastname(registrationDto.lastname());
-        user.setPassword(encodedPassword);
+        AppUser appUser = new AppUser();
+        appUser.setUsername(registrationDto.username());
+        appUser.setFirstname(registrationDto.firstname());
+        appUser.setLastname(registrationDto.lastname());
+        appUser.setPassword(encodedPassword);
 
-        userRepository.save(user);
+        userRepository.save(appUser);
     }
 }

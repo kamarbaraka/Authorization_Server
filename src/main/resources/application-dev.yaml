@@ -3,9 +3,14 @@ spring:
     import: optional:credentials.yaml
 
   datasource:
-    url: ${app.init.db-url}/authorization_server
+    url: ${app.init.db-url}?currentSchema=authorization_server
   mail:
     host: smtp.gmail.com
     port: 584
     test-connection: true
-
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update

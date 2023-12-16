@@ -1,6 +1,7 @@
 package org.kamar.authorization_server.user.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.kamar.authorization_server.user_authorities.entity.UserAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,9 +16,9 @@ import java.util.List;
  * @author kamar baraka.*/
 
 @Component("appUser")
-@Entity
+@Entity(name = "app_users")
 @Data
-public class User implements UserDetails {
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +27,22 @@ public class User implements UserDetails {
     @Column(name = "username", nullable = false, updatable = false, unique = true)
     private String username;
 
+    @Size(min = 1, max = 50, message = "firstname too long!")
+    @Column(name = "firstname")
     private String firstname;
 
+    @Size(min = 1, max = 50, message = "lastname too long!")
+    @Column(name = "lastname")
     private String lastname;
 
+    @Column(name = "password")
     private String password;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
     fetch = FetchType.EAGER
     )
+    @JoinTable(name = "users_authorities", joinColumns = {@JoinColumn(name = "app_user")},
+            inverseJoinColumns = {@JoinColumn(name = "authority")})
     private final List<UserAuthority> authorities = new ArrayList<>();
 
     private boolean accountNonExpired = true;
