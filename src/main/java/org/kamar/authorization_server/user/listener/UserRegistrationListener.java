@@ -2,7 +2,7 @@ package org.kamar.authorization_server.user.listener;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.kamar.authorization_server.user.data.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
 import org.kamar.authorization_server.user.entity.AppUser;
 import org.kamar.authorization_server.user.event.UserRegistrationEvent;
 import org.kamar.authorization_server.user.repository.UserRepository;

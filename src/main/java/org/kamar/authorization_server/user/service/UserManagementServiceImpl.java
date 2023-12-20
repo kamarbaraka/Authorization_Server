@@ -1,9 +1,8 @@
 package org.kamar.authorization_server.user.service;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.kamar.authorization_server.user.data.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
 import org.kamar.authorization_server.user.event.UserRegistrationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

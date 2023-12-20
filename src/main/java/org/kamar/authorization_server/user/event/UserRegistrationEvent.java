@@ -1,7 +1,7 @@
 package org.kamar.authorization_server.user.event;
 
 import lombok.Getter;
-import org.kamar.authorization_server.user.data.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
 import org.springframework.context.ApplicationEvent;
 
 /**

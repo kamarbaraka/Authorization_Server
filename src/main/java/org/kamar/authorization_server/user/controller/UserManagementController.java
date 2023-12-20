@@ -3,18 +3,21 @@ package org.kamar.authorization_server.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.kamar.authorization_server.exception.ErrorCode;
-import org.kamar.authorization_server.exception.UserPresError;
-import org.kamar.authorization_server.user.data.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.model.AppUserPresentationModel;
 import org.kamar.authorization_server.user.exception.UserException;
 import org.kamar.authorization_server.user.service.UserManagementService;
+import org.kamar.authorization_server.user_authorities.entity.UserAuthority;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * the controller for user management operations.
@@ -37,7 +40,7 @@ public class UserManagementController {
     )
 //    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    public ResponseEntity<Void> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) throws UserException {
+    public ResponseEntity<AppUserPresentationModel> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
 
         /*register the user*/
         try {
@@ -47,6 +50,15 @@ public class UserManagementController {
         }
 
         /*respond*/
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .cacheControl(CacheControl.maxAge(2, TimeUnit.DAYS))
+                .eTag(String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)))
+                .build();
+    }
+
+    @GetMapping(value = {"{userId}"})
+    public ResponseEntity<List<UserAuthority>> getAuthoritiesByUserId(@PathVariable("userId") long userId){
+
+        return ResponseEntity.ok().build();
     }
 }

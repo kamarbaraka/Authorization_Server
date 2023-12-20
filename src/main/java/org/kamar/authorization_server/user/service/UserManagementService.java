@@ -1,7 +1,6 @@
 package org.kamar.authorization_server.user.service;
 
-import org.kamar.authorization_server.user.data.UserRegistrationDto;
-import org.kamar.authorization_server.user.exception.UserException;
+import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
 
 /**
  * contract for managing users.
