@@ -1,12 +1,11 @@
 package org.kamar.authorization_server.user.exception;
 
-import java.io.IOException;
 
 /**
  * the user exceptions.
  * @author kamar baraka.*/
 
-public class UserException extends IOException {
+public class UserException extends RuntimeException {
 
     public UserException(String message) {
         super(message);

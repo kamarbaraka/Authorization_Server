@@ -6,7 +6,6 @@ import org.springframework.lang.NonNull;
  * DTO for user registration.
  * @author kamar baraka.*/
 
-
 public record UserRegistrationDto(
         @NonNull
         String username,

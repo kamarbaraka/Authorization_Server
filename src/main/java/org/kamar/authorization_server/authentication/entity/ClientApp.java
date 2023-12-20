@@ -16,6 +16,9 @@ import java.util.List;
 @Data
 public class ClientApp {
 
+    @Transient
+    private static final String CLIENT_APP_ID = "client_app_id";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,22 +31,30 @@ public class ClientApp {
     private String clientSecret;
 
     @ElementCollection
-    @CollectionTable(name = "client_redirect_uris")
+    @CollectionTable(name = "client_redirect_uris", joinColumns = {
+            @JoinColumn(name = CLIENT_APP_ID)
+    })
     @Column(name = "redirect_uri")
     private List<String> redirectUris;
 
     @ElementCollection
-    @CollectionTable(name = "logout_uris")
-    @JoinColumn(name = "logout_uri")
+    @CollectionTable(name = "client_logout_uris", joinColumns = {
+        @JoinColumn(name = CLIENT_APP_ID)
+    })
+    @Column(name = "logout_uri")
     private List<String > postLogoutRedirectUris;
 
     @ElementCollection
-    @CollectionTable(name = "client_scopes")
+    @CollectionTable(name = "client_app_scopes", joinColumns = {
+            @JoinColumn(name = CLIENT_APP_ID)
+    })
     @Column(name = "scopes")
     private List<String > scopes;
 
     @ElementCollection
-    @CollectionTable(name = "client_grant_types")
+    @CollectionTable(name = "client_app_grant_types", joinColumns = {
+            @JoinColumn(name = CLIENT_APP_ID)
+    })
     @Column(name = "grant_type")
     private List<String > grantTypes;
 
