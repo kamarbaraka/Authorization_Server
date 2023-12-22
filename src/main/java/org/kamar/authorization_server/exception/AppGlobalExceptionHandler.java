@@ -3,13 +3,10 @@ package org.kamar.authorization_server.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.user.exception.UserException;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Locale;
 
 /**
  * the global error handler for this application.
@@ -17,22 +14,22 @@ import java.util.Locale;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class AppGlobalErrorHandler {
+public class AppGlobalExceptionHandler {
 
-    private final UserPresErrorUtility utility;
+    private final ErrorDetailsUtility utility;
     private final HttpServletRequest request;
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<UserPresError> handleError(){
+    public ResponseEntity<ErrorDetails> handleError(){
 
         /*set the press error and return*/
-        UserPresError userPresError = utility.createError(ErrorCode.USER_ERROR_CODE.getErrorCode(),
+        ErrorDetails errorDetails = utility.createError(ErrorCode.USER_ERROR_CODE.getErrorCode(),
                 ErrorCode.USER_ERROR_CODE.getMessage());
 
-        userPresError.setUrl(request.getRequestURI());
-        userPresError.setRequestMethod(request.getMethod());
-        userPresError.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        errorDetails.setUrl(request.getRequestURI());
+        errorDetails.setRequestMethod(request.getMethod());
+        errorDetails.setStatusCode(HttpStatus.BAD_REQUEST.value());
 
-        return ResponseEntity.badRequest().body(userPresError);
+        return ResponseEntity.badRequest().body(errorDetails);
     }
 }

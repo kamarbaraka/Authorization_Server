@@ -53,7 +53,8 @@ import org.springframework.web.bind.annotation.RestController;
                         tokenUrl = "",
                         refreshUrl = "",
                         scopes = {
-                                @OAuthScope(name = "", description = "")
+                                @OAuthScope(name = "register user", description = "able to register a user."),
+                                @OAuthScope(name = "get user data",description = "able to get the user's info.")
                         }
                 )
         )

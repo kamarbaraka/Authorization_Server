@@ -3,9 +3,16 @@ package org.kamar.authorization_server.authentication.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * representation of the client application.
@@ -14,18 +21,19 @@ import java.util.List;
 
 @Entity(name = "client_apps")
 @Data
-public class ClientApp {
+@EqualsAndHashCode(callSuper = false)
+@Component
+public class ClientApp extends RegisteredClient {
 
     @Transient
     private static final String CLIENT_APP_ID = "client_app_id";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    private String clientName;
+    private String  id;
 
     private String clientId;
+
+    private String clientName;
 
     @Column(name = "client_secret")
     private String clientSecret;
@@ -35,31 +43,36 @@ public class ClientApp {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "redirect_uri")
-    private List<String> redirectUris;
+    private Set<String> redirectUris;
 
     @ElementCollection
     @CollectionTable(name = "client_logout_uris", joinColumns = {
         @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "logout_uri")
-    private List<String > postLogoutRedirectUris;
+    private Set<String > postLogoutRedirectUris;
 
     @ElementCollection
     @CollectionTable(name = "client_app_scopes", joinColumns = {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "scopes")
-    private List<String > scopes;
+    private Set<String > scopes;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(joinColumns = {@JoinColumn(name = CLIENT_APP_ID)})
+    private Set<ClientAuthenticationMethod> clientAuthenticationMethods;
 
     @ElementCollection
     @CollectionTable(name = "client_app_grant_types", joinColumns = {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "grant_type")
-    private List<String > grantTypes;
+    private Set<AuthorizationGrantType> authorizationGrantTypes;
 
-    private LocalDateTime clientIssuedAt = LocalDateTime.now();
+    private Instant clientIdIssuedAt = Instant.now();
 
     @FutureOrPresent
-    private LocalDateTime clientSecretExpiresAt;
+    private Instant clientSecretExpiresAt;
 }

@@ -1,6 +1,5 @@
-package org.kamar.authorization_server.user_authorities.entity;
+package org.kamar.authorization_server.scope.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
@@ -12,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity(name = "user_authorities")
 @Data
-public class UserAuthority implements GrantedAuthority {
+public class Scope implements GrantedAuthority {
 
     @Id
     private String authority;

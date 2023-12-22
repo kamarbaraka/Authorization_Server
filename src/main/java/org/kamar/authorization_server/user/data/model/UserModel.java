@@ -1,8 +1,7 @@
 package org.kamar.authorization_server.user.data.model;
 
-import jakarta.annotation.Nonnull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +10,13 @@ import org.springframework.stereotype.Component;
  * @author kamar baraka.*/
 
 @Component
-@NoArgsConstructor
 @Data
-public class AppUserPresentationModel extends RepresentationModel<AppUserPresentationModel> {
+@EqualsAndHashCode(callSuper = true)
+public class UserModel extends RepresentationModel<UserModel> {
 
-
-        @Nonnull
+        @NotNull
         private long userId;
-        @Nonnull
+        @NotNull
         private String username;
         private String firstname;
         private String lastname;

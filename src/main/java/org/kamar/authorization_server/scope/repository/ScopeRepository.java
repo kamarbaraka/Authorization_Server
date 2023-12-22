@@ -1,4 +1,4 @@
-package org.kamar.authorization_server.user_authorities.repository;
+package org.kamar.authorization_server.scope.repository;
 
 import org.springframework.stereotype.Repository;
 
@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
  * @author kamar baraka.*/
 
 @Repository
-public interface UserAuthorityRepository {
+public interface ScopeRepository {
 }

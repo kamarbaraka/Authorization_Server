@@ -1,7 +1,7 @@
 package org.kamar.authorization_server.authentication.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kamar.authorization_server.user.entity.AppUser;
+import org.kamar.authorization_server.user.entity.User;
 import org.kamar.authorization_server.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +23,7 @@ public class AppUserDetailsService implements UserDetailsManager {
     public void createUser(UserDetails user) {
 
         /*persist the user*/
-        AppUser appUser = (AppUser) user;
+        User appUser = (User) user;
         userRepository.save(appUser);
 
     }
@@ -32,7 +32,7 @@ public class AppUserDetailsService implements UserDetailsManager {
     public void updateUser(UserDetails user) {
 
         /*update user*/
-        AppUser appUser = (AppUser) user;
+        User appUser = (User) user;
         userRepository.save(appUser);
 
     }
@@ -41,8 +41,8 @@ public class AppUserDetailsService implements UserDetailsManager {
     public void deleteUser(String username) {
 
         /*check if user exists and delete*/
-        AppUser appUser = userRepository.findUserByUsername(username).orElseThrow();
-        userRepository.delete(appUser);
+        User user = userRepository.findUserByUsername(username).orElseThrow();
+        userRepository.delete(user);
 
     }
 

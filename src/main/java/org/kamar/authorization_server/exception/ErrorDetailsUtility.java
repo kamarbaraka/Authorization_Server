@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserPresErrorUtility {
+public class ErrorDetailsUtility {
 
-    private final UserPresError userPresError;
+    private final ErrorDetails errorDetails;
 
-    public UserPresError createError(final String errorCode, final String message){
+    public ErrorDetails createError(final String errorCode, final String message){
 
         /*create the user pres error object and return*/
-        userPresError.setErrorCode(errorCode);
-        userPresError.setMessage(message);
+        errorDetails.setErrorCode(errorCode);
+        errorDetails.setMessage(message);
 
-        return userPresError;
+        return errorDetails;
     }
 }

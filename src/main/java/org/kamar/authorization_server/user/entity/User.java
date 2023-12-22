@@ -3,7 +3,7 @@ package org.kamar.authorization_server.user.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.kamar.authorization_server.user_authorities.entity.UserAuthority;
+import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Component("appUser")
 @Entity(name = "app_users")
 @Data
-public class AppUser implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class AppUser implements UserDetails {
     )
     @JoinTable(name = "users_authorities", joinColumns = {@JoinColumn(name = "app_user")},
             inverseJoinColumns = {@JoinColumn(name = "authority")})
-    private final List<UserAuthority> authorities = new ArrayList<>();
+    private final List<Scope> authorities = new ArrayList<>();
 
     private boolean accountNonExpired = true;
 

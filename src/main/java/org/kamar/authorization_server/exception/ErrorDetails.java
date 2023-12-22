@@ -2,7 +2,6 @@ package org.kamar.authorization_server.exception;
 
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @Description("component to represent system errors.")
-public class UserPresError {
+public class ErrorDetails {
 
     private String errorCode;
 

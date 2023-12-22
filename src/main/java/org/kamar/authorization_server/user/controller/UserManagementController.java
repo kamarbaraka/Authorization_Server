@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
-import org.kamar.authorization_server.user.data.model.AppUserPresentationModel;
+import org.kamar.authorization_server.user.data.model.UserModel;
 import org.kamar.authorization_server.user.exception.UserException;
 import org.kamar.authorization_server.user.service.UserManagementService;
-import org.kamar.authorization_server.user_authorities.entity.UserAuthority;
+import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,7 +40,7 @@ public class UserManagementController {
     )
 //    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    public ResponseEntity<AppUserPresentationModel> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<UserModel> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
 
         /*register the user*/
         try {
@@ -57,7 +57,7 @@ public class UserManagementController {
     }
 
     @GetMapping(value = {"{userId}"})
-    public ResponseEntity<List<UserAuthority>> getAuthoritiesByUserId(@PathVariable("userId") long userId){
+    public ResponseEntity<List<Scope>> getAuthoritiesByUserId(@PathVariable("userId") long userId){
 
         return ResponseEntity.ok().build();
     }
