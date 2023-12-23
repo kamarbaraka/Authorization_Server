@@ -12,7 +12,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-    USER_ERROR_CODE("0001", "System unable to process your request at this time, Pleas Contact Support!");
+    USER_ERROR_CODE("0001", "System unable to process your request at this time, Please contact support!"),
+    SCOPE("0002", "Unable to process Scope, Please contact support!");
 
     private final String errorCode;
     private final String message;
