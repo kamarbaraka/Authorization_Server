@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * representation of user authorities.
@@ -11,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity(name = "user_authorities")
 @Data
+@Component
 public class Scope implements GrantedAuthority {
 
     @Id

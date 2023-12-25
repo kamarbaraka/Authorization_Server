@@ -27,12 +27,6 @@ public class ClientAppDetails implements RegisteredClientRepository {
         /*copy registered client properties to the client app and persist*/
         BeanUtils.copyProperties(registeredClient, clientApp);
 
-        /*assign the default grant types*/
-        clientApp.getAuthorizationGrantTypes().addAll(List.of(AuthorizationGrantType.AUTHORIZATION_CODE,
-                AuthorizationGrantType.REFRESH_TOKEN));
-        /*assign the authentication methods*/
-        clientApp.getClientAuthenticationMethods().add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-
         repository.save(clientApp);
 
     }

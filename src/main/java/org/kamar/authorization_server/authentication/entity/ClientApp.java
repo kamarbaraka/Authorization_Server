@@ -55,12 +55,12 @@ public class ClientApp extends RegisteredClient {
     @Column(name = "logout_uri")
     private Set<String > postLogoutRedirectUris = Collections.emptySet();
 
-    @ManyToMany
-    @JoinTable(name = "client_app_scopes", joinColumns = {
+    @ElementCollection
+    @CollectionTable(name = "client_app_scopes", joinColumns = {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "scopes")
-    private Set<Scope> scopes = Collections.emptySet();
+    private Set<String > scopes = Collections.emptySet();
 
     @Enumerated(EnumType.STRING)
     @ElementCollection
@@ -79,4 +79,6 @@ public class ClientApp extends RegisteredClient {
 
     @FutureOrPresent
     private Instant clientSecretExpiresAt;
+
+    private Instant updatedOn = Instant.now();
 }
