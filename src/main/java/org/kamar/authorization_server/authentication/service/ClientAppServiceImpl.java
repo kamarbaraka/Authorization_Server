@@ -7,8 +7,7 @@ import org.kamar.authorization_server.authentication.repository.ClientAppReposit
 import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 
 @Service
@@ -23,11 +22,14 @@ public class ClientAppServiceImpl implements ClientAppService {
     public ClientApp createClientApp(ClientAppCreationDto creationDto) {
 
         /*configure the client app*/
+        List<Scope> scopes = creationDto.scopes().stream().map(scopeString -> {
+            scope.setAuthority(scopeString);
+            return scope;
+        }).toList();
         clientApp.setClientName(creationDto.clientName());
-        clientApp.getRedirectUris().add(creationDto.redirectUri());
-        clientApp.getPostLogoutRedirectUris().add(creationDto.postLogoutRedirectUri());
-
-        clientApp.getScopes().addAll(creationDto.scopes());
+        clientApp.setRedirectUri(creationDto.redirectUri());
+        clientApp.setPostLogoutRedirectUris(creationDto.postLogoutRedirectUri());
+        clientApp.getScopes().addAll(scopes);
 
         /*set the defaults and save*/
         return repository.save(clientApp);

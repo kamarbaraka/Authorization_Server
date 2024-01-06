@@ -4,15 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.authentication.entity.ClientApp;
 import org.kamar.authorization_server.authentication.repository.ClientAppRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +29,37 @@ public class ClientAppDetails implements RegisteredClientRepository {
     public RegisteredClient findById(String id) {
 
         /*find the registered client by id*/
-        return repository.findById(id).orElseThrow();
+        ClientApp client = repository.findById(id).orElseThrow();
+
+        /*get the registered client and return*/
+        return getRegisteredClientFromClientApp(client);
+
+
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
 
         /*find the client by client id*/
-        return repository.findClientAppByClientId(clientId).orElseThrow();
+        ClientApp client = repository.findClientAppByClientId(clientId).orElseThrow();
+
+        /*get the registered client and retirn*/
+        return getRegisteredClientFromClientApp(client);
+    }
+
+    private RegisteredClient getRegisteredClientFromClientApp(ClientApp entity){
+
+        /*create the registered client*/
+        RegisteredClient.Builder rCBuilder = RegisteredClient.withId(entity.getId());
+        rCBuilder.clientName(entity.getClientName());
+        rCBuilder.clientId(entity.getClientId());
+        rCBuilder.clientSecret(entity.getClientSecret());
+        rCBuilder.authorizationGrantTypes(set -> entity.getAuthorizationGrantTypes());
+        rCBuilder.scopes(scope -> entity.getScopes());
+        rCBuilder.redirectUris(uri -> entity.getRedirectUri());
+        rCBuilder.postLogoutRedirectUris(uris -> entity.getPostLogoutRedirectUris());
+
+        return rCBuilder.build();
     }
 
 }

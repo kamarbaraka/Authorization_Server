@@ -4,7 +4,9 @@ import org.kamar.authorization_server.authentication.controller.ClientAppControl
 import org.kamar.authorization_server.authentication.data.model.ClientAppModel;
 import org.kamar.authorization_server.authentication.entity.ClientApp;
 import org.springframework.beans.BeanUtils;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,8 @@ public class ClientAppModelAssembler extends RepresentationModelAssemblerSupport
         BeanUtils.copyProperties(entity, model);
 
         /*add links*/
+        Link selfLink = WebMvcLinkBuilder.linkTo(ClientAppController.class).withSelfRel();
+        model.add(selfLink);
 
         /*return the model*/
         return model;

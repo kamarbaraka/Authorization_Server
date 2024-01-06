@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
  * configuration for oauth2 authentication.
  * @author kamar baraka.*/
 
-@Configuration
+
 public class AuthServerConfig extends OAuth2AuthorizationServerConfiguration {
 
 

@@ -1,6 +1,7 @@
 package org.kamar.authorization_server.authentication.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.authentication.data.dto.ClientAppCreationDto;
 import org.kamar.authorization_server.authentication.data.hateoas.ClientAppModelAssembler;
@@ -29,6 +30,16 @@ public class ClientAppController implements ClientAppApi {
     private final ClientAppService service;
 
     @PostMapping
+    @Operation(
+                tags = {"Client Management"},
+                summary = "Api to create a client application.",
+                description = "create a client application",
+                requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
+                parameters = {},
+                responses = {},
+                security = {},
+                servers = {}
+    )
     @Override
     public ResponseEntity<ClientAppModel> createClientApp(@RequestBody ClientAppCreationDto creationDto) {
         /*create the client*/

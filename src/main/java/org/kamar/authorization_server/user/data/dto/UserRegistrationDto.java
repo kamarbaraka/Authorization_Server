@@ -1,6 +1,9 @@
 package org.kamar.authorization_server.user.data.dto;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.NonNull;
+
+import java.util.List;
 
 /**
  * DTO for user registration.
@@ -12,6 +15,8 @@ public record UserRegistrationDto (
         String firstname,
         String lastname,
         @NonNull
-        String password
+        String password,
+        @NotNull
+        List<String > scopes
 ) {
 }

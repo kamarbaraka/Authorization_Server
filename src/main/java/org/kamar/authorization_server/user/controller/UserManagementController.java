@@ -4,19 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
+import org.kamar.authorization_server.user.data.hateoas.UserModelAssembler;
 import org.kamar.authorization_server.user.data.model.UserModel;
-import org.kamar.authorization_server.user.exception.UserException;
+import org.kamar.authorization_server.user.entity.User;
 import org.kamar.authorization_server.user.service.UserManagementService;
-import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class UserManagementController {
 
     private final UserManagementService userManagementService;
+    private final UserModelAssembler userModelAssembler;
 
 
     @PostMapping(name = "reg", consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -43,22 +41,27 @@ public class UserManagementController {
     public ResponseEntity<UserModel> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
 
         /*register the user*/
-        try {
             userManagementService.registerUser(userRegistrationDto);
-        } catch (Exception e) {
-            throw new UserException(e.getMessage());
-        }
+
 
         /*respond*/
         return ResponseEntity.status(HttpStatus.CREATED)
-                .cacheControl(CacheControl.maxAge(2, TimeUnit.DAYS))
-                .eTag(String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)))
                 .build();
     }
 
-    @GetMapping(value = {"{userId}"})
-    public ResponseEntity<List<Scope>> getAuthoritiesByUserId(@PathVariable("userId") long userId){
+    @GetMapping(value = {"{username}"})
+    public ResponseEntity<UserModel> getUserByUsername(@PathVariable("username") final String  username){
 
-        return ResponseEntity.ok().build();
+        /*get the user*/
+        User user = userManagementService.getUserByUsername(username);
+
+        /*create a model*/
+        UserModel userModel = userModelAssembler.toModel(user);
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(CacheControl.maxAge(2, TimeUnit.DAYS))
+                .lastModified(user.getUpdatedOn())
+                .body(userModel);
     }
 }

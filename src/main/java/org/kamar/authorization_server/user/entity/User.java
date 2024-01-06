@@ -7,6 +7,7 @@ import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,4 +56,6 @@ public class User implements UserDetails {
 
     @Column(name = "date_created", nullable = false, updatable = false)
     private final LocalDate createdOn = LocalDate.now();
+
+    private Instant updatedOn = Instant.now();
 }

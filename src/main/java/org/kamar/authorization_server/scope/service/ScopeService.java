@@ -2,6 +2,8 @@ package org.kamar.authorization_server.scope.service;
 
 import org.kamar.authorization_server.scope.entity.Scope;
 
+import java.util.List;
+
 /**
  * the scope service contract.
  *
@@ -11,4 +13,6 @@ import org.kamar.authorization_server.scope.entity.Scope;
 public interface ScopeService {
 
     Scope createScope(Scope scope);
+
+    List<Scope> getUserScopesByUsername(String username);
 }

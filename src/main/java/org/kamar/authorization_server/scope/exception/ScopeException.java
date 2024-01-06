@@ -6,4 +6,7 @@ package org.kamar.authorization_server.scope.exception;
  * @author kamar baraka.*/
 
 public class ScopeException extends RuntimeException {
+    public ScopeException(String message) {
+        super(message);
+    }
 }

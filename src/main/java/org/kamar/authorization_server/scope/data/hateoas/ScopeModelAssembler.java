@@ -1,14 +1,14 @@
 package org.kamar.authorization_server.scope.data.hateoas;
 
 
-import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.scope.controller.ScopeController;
 import org.kamar.authorization_server.scope.data.model.ScopeModel;
 import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.beans.BeanUtils;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 
 /**
  * assembler for the scope model.
@@ -29,6 +29,7 @@ public class ScopeModelAssembler extends RepresentationModelAssemblerSupport<Sco
 
         /*model the entity*/
         BeanUtils.copyProperties(entity, model);
+        model.setScope(entity.getAuthority());
 
         return model;
     }

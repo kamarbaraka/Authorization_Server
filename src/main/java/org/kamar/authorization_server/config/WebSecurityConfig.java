@@ -39,6 +39,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
                                                    AuthenticationManager manager)throws Exception{
 
+        /*configure authorization server*/
+
         /*enable form login*/
         httpSecurity.authenticationManager(manager);
         httpSecurity.formLogin(httpSecurityFormLoginConfigurer -> {});

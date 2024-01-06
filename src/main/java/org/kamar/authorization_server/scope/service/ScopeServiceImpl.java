@@ -2,8 +2,12 @@ package org.kamar.authorization_server.scope.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.scope.entity.Scope;
+import org.kamar.authorization_server.scope.exception.ScopeException;
 import org.kamar.authorization_server.scope.repository.ScopeRepository;
+import org.kamar.authorization_server.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * implementation of the scope service contract.
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class ScopeServiceImpl implements ScopeService{
 
     private final ScopeRepository repository;
+    private final UserRepository userRepository;
 
     /**
      * Creates a new scope and persists it.
@@ -28,5 +33,15 @@ public class ScopeServiceImpl implements ScopeService{
 
         /*persist the scope and return*/
         return repository.save(scope);
+    }
+
+    @Override
+    public List<Scope> getUserScopesByUsername(final String username) {
+
+        /*get the user scopes*/
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new ScopeException("no such user to get the scopes!"))
+                .getAuthorities();
+
     }
 }
