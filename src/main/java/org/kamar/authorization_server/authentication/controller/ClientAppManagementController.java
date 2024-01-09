@@ -24,16 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = {"api/v1/clientApps"})
 @RequiredArgsConstructor
-public class ClientAppController implements ClientAppApi {
+public class ClientAppManagementController implements ClientAppApi {
 
     private final ClientAppModelAssembler assembler;
     private final ClientAppService service;
 
     @PostMapping
     @Operation(
-                tags = {"Client Management"},
+                tags = {"Client Management."},
                 summary = "Api to create a client application.",
-                description = "create a client application",
+                description = "create a client application.",
                 requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
                 parameters = {},
                 responses = {},

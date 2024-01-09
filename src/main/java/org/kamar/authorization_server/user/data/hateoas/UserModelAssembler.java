@@ -2,7 +2,7 @@ package org.kamar.authorization_server.user.data.hateoas;
 
 
 import jakarta.validation.constraints.NotNull;
-import org.kamar.authorization_server.scope.controller.ScopeController;
+import org.kamar.authorization_server.scope.controller.ScopeManagementController;
 import org.kamar.authorization_server.user.controller.UserManagementController;
 import org.kamar.authorization_server.user.data.model.UserModel;
 import org.kamar.authorization_server.user.entity.User;
@@ -35,12 +35,18 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
         model.setFirstname(entity.getFirstname());
         model.setLastname(entity.getLastname());
 
-        /*add the links*/
+        /*create links*/
+        Link selfLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(UserManagementController.class)
+                        .getUserByUsername(entity.getUsername())).withSelfRel();
+
         Link authoritiesLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(ScopeController.class)
+                .linkTo(WebMvcLinkBuilder.methodOn(ScopeManagementController.class)
                 .getUserScopesByUsername(entity.getUsername())).withRel("authorities");
 
+        /*add the links*/
         model.add(authoritiesLink);
+        model.add(selfLink);
 
         return model;
 

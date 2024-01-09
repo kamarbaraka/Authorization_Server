@@ -30,23 +30,6 @@ public class UserRegistrationListener {
 
         UserRegistrationDto registrationDto = event.getRegistrationDto();
 
-        /*encode the password*/
-        String encodedPassword = passwordEncoder.encode(registrationDto.password());
 
-        User appUser = new User();
-        appUser.setUsername(registrationDto.username());
-        appUser.setFirstname(registrationDto.firstname());
-        appUser.setLastname(registrationDto.lastname());
-        appUser.setPassword(encodedPassword);
-
-        /*get the scopes*/
-        List<Scope> scopes = registrationDto.scopes().stream().map(scopeString -> {
-            scope.setAuthority(scopeString);
-            return scope;
-        }).toList();
-
-        appUser.getAuthorities().addAll(scopes);
-
-        userRepository.save(appUser);
     }
 }

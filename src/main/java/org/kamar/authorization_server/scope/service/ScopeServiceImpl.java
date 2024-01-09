@@ -44,4 +44,13 @@ public class ScopeServiceImpl implements ScopeService{
                 .getAuthorities();
 
     }
+
+    @Override
+    public Scope getScopeByAuthority(String authority) {
+
+        /*get the scope by authority*/
+        return repository.findById(authority)
+                .orElseThrow(() -> new ScopeException("no scope with such authority!"));
+
+    }
 }

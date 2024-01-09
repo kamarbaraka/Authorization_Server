@@ -11,7 +11,7 @@ import org.kamar.authorization_server.user.entity.User;
 
 public interface UserManagementService {
 
-    void registerUser(UserRegistrationDto userRegistrationDto) ;
+    User registerUser(UserRegistrationDto userRegistrationDto) ;
 
     User getUserByUsername(String  userId);
 }

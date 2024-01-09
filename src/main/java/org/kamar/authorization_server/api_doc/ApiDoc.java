@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @OpenAPIDefinition(
         tags = {
                 @Tag(name = "User Management.", description = "— Apis for managing ``users`` of the server."),
-                @Tag(name = "Client Management", description = "Apis for managing ``client applications``"),
-                @Tag(name = "Scope Management", description = "Apis for managing ``user and application scopes``.")
+                @Tag(name = "Client Management.", description = "Apis for managing ``client applications``."),
+                @Tag(name = "Scope Management.", description = "Apis for managing ``user and application scopes``.")
         },
         info = @Info(
                 title = "Authorization Server",

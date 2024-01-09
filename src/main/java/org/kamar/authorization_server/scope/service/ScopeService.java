@@ -15,4 +15,6 @@ public interface ScopeService {
     Scope createScope(Scope scope);
 
     List<Scope> getUserScopesByUsername(String username);
+
+    Scope getScopeByAuthority(String authority);
 }
