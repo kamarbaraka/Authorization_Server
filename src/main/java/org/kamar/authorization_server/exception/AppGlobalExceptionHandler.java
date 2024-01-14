@@ -58,4 +58,5 @@ public class AppGlobalExceptionHandler {
 
         return ResponseEntity.badRequest().build();
     }
+
 }

@@ -26,6 +26,12 @@ public class ScopeManagementController implements ScopeApi{
     private final ScopeModelAssembler assembler;
     private final CacheControl cacheControl = CacheControl.maxAge(2, TimeUnit.DAYS);
 
+    /**
+     * Api for creating an application scope (granted authority).
+     *
+     * @param scope The scope to be created.
+     * @return ResponseEntity The response entity with the created scope.
+     */
     @PostMapping
     @Operation(
             tags = {"Scope Management."},
@@ -48,10 +54,16 @@ public class ScopeManagementController implements ScopeApi{
                 .body(scopeModel);
     }
 
+    /**
+     * Retrieves the scopes of a user based on their username.
+     *
+     * @param username The username of the user.
+     * @return A ResponseEntity with a list of ScopeModel objects representing the user's scopes.
+     */
     @GetMapping(value = {"{username}"})
     @Operation(
                 tags = {"Scope Management."},
-                summary = "Api to get user scopes.",
+                summary = "Retrieves the scopes of a user based on their username.",
                 description = "Get ``user scopes`` by their username.",
                 requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
                 parameters = {},
@@ -73,11 +85,17 @@ public class ScopeManagementController implements ScopeApi{
                 .body(scopeModels);
     }
 
+    /**
+     * Retrieves a scope by its authority.
+     *
+     * @param authority the authority of the scope to retrieve
+     * @return a ResponseEntity containing the scope model if found, or an empty response if not found
+     */
     @GetMapping
     @Operation(
                 tags = {"Scope Management."},
                 summary = "Api to get a scope by authority.",
-                description = "Get a scope by its authority.",
+                description = "Retrieves a scope by its authority.",
                 requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
                 parameters = {},
                 responses = {},

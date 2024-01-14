@@ -36,13 +36,12 @@ public class WebSecurityConfig {
 
 
     @Bean(name = "appSecFilterChain")
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
-                                                   AuthenticationManager manager)throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
 
         /*configure authorization server*/
 
         /*enable form login*/
-        httpSecurity.authenticationManager(manager);
+//        httpSecurity.authenticationManager(manager);
         httpSecurity.formLogin(httpSecurityFormLoginConfigurer -> {});
 
         /*authenticate all endpoints*/
@@ -63,7 +62,7 @@ public class WebSecurityConfig {
         return new DelegatingPasswordEncoder("bcrypt", passwordEncoders);
     }
 
-    @Bean
+//    @Bean
     public AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder){
 
         return builder.getObject();

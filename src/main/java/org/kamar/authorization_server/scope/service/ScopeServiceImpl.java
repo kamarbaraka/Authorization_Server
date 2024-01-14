@@ -35,6 +35,13 @@ public class ScopeServiceImpl implements ScopeService{
         return repository.save(scope);
     }
 
+    /**
+     * Retrieves a list of user scopes by username.
+     *
+     * @param username the username of the user to retrieve scopes for
+     * @return a list of scopes associated with the user
+     * @throws ScopeException if no user with the given username is found
+     */
     @Override
     public List<Scope> getUserScopesByUsername(final String username) {
 
@@ -45,6 +52,13 @@ public class ScopeServiceImpl implements ScopeService{
 
     }
 
+    /**
+     * Retrieves a scope by its authority.
+     *
+     * @param authority the authority of the scope to retrieve
+     * @return the scope with the given authority
+     * @throws ScopeException if no scope with the given authority is found
+     */
     @Override
     public Scope getScopeByAuthority(String authority) {
 

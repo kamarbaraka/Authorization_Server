@@ -1,6 +1,7 @@
 package org.kamar.authorization_server.scope.entity;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerProperties;
 
 import java.util.ArrayList;
 import java.util.HashSet;
