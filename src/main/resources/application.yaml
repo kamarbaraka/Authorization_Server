@@ -22,3 +22,16 @@ server:
     include-binding-errors: never
     include-exception: false
     include-stacktrace: never
+
+resilience4j:
+  ratelimiter:
+    configs:
+      default:
+        limit-for-period: 1
+        limit-refresh-period:
+          seconds: 60
+        timeout-duration:
+          seconds: 30
+    instances:
+      limitA:
+        base-config: default

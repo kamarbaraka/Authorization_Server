@@ -1,5 +1,7 @@
 package org.kamar.authorization_server.scope.controller;
 
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.scope.data.hateoas.ScopeModelAssembler;
@@ -102,6 +104,7 @@ public class ScopeManagementController implements ScopeApi{
                 security = {},
                 servers = {}
     )
+    @RateLimiter(name = "limitA", fallbackMethod = "fallBack")
     public ResponseEntity<ScopeModel> getScopeByAuthority(@RequestParam(name = "authority") final String authority){
 
         /*get the scope*/
@@ -114,5 +117,13 @@ public class ScopeManagementController implements ScopeApi{
                 .cacheControl(cacheControl)
                 .lastModified(scope.getUpdatedOn())
                 .body(scopeModel);
+    }
+
+    public ResponseEntity<Void> fallBack(String authority, RequestNotPermitted ex){
+
+        /*respond with too many requests status*/
+        return ResponseEntity
+                .status(HttpStatus.TOO_MANY_REQUESTS)
+                .build();
     }
 }

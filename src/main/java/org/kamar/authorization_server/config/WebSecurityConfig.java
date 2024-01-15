@@ -3,6 +3,7 @@ package org.kamar.authorization_server.config;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -35,14 +36,12 @@ import java.util.HashMap;
 public class WebSecurityConfig {
 
 
-    @Bean(name = "appSecFilterChain")
+    @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
 
-        /*configure authorization server*/
-
         /*enable form login*/
-//        httpSecurity.authenticationManager(manager);
-        httpSecurity.formLogin(httpSecurityFormLoginConfigurer -> {});
+        httpSecurity.formLogin(Customizer.withDefaults());
 
         /*authenticate all endpoints*/
 
@@ -62,9 +61,4 @@ public class WebSecurityConfig {
         return new DelegatingPasswordEncoder("bcrypt", passwordEncoders);
     }
 
-//    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder){
-
-        return builder.getObject();
-    }
 }
