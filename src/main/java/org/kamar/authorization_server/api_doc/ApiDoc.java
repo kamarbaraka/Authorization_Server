@@ -1,6 +1,5 @@
 package org.kamar.authorization_server.api_doc;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -12,11 +11,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.annotations.OpenAPI31;
 import org.springframework.web.bind.annotation.RestController;
-
-/**
- * configuration class for api documentation.
- * @author kamar baraka.*/
-
 
 @RestController
 @OpenAPIDefinition(
@@ -56,17 +50,18 @@ import org.springframework.web.bind.annotation.RestController;
                         refreshUrl = "",
                         scopes = {
                                 @OAuthScope(name = "register user", description = "able to register a user."),
-                                @OAuthScope(name = "get user data",description = "able to get the user's info.")
+                                @OAuthScope(name = "get user data",description = "able to get the user's info."),
+                                @OAuthScope(name = "profile", description = "get the requested user profile.")
                         }
                 )
         )
-
 )
+
 @SecurityScheme(
         type = SecuritySchemeType.OPENIDCONNECT,
         name = "openId",
         description = "Security scheme for openId connect.",
-        openIdConnectUrl = ""
+        openIdConnectUrl = "YourOpenIdConnectUrlHere"
 )
 
 public class ApiDoc {

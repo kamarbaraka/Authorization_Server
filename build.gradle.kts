@@ -34,6 +34,10 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.1.0")
+    // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0")
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:33.0.0-jre")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")

@@ -4,6 +4,7 @@ import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.kamar.authorization_server.scope.data.dto.ScopeDto;
 import org.kamar.authorization_server.scope.data.hateoas.ScopeModelAssembler;
 import org.kamar.authorization_server.scope.data.model.ScopeModel;
 import org.kamar.authorization_server.scope.entity.Scope;
@@ -26,13 +27,15 @@ public class ScopeManagementController implements ScopeApi{
 
     private final ScopeService service;
     private final ScopeModelAssembler assembler;
+    private final Scope scope;
     private final CacheControl cacheControl = CacheControl.maxAge(2, TimeUnit.DAYS);
 
     /**
-     * Api for creating an application scope (granted authority).
+     * Creates an application scope (granted authority) based on the provided scopeDto.
      *
-     * @param scope The scope to be created.
-     * @return ResponseEntity The response entity with the created scope.
+     * @param scopeDto The DTO object containing the data for the new scope.
+     * @return Returns a ResponseEntity containing the created ScopeModel if successful,
+     *         or an appropriate error response if unsuccessful.
      */
     @PostMapping
     @Operation(
@@ -46,9 +49,10 @@ public class ScopeManagementController implements ScopeApi{
             servers = {}
     )
     @Override
-    public ResponseEntity<ScopeModel> createScope(@RequestBody @Validated Scope scope) {
+    public ResponseEntity<ScopeModel> createScope(@RequestBody @Validated ScopeDto scopeDto) {
 
         /*create the scope*/
+        scope.setAuthority(scopeDto.authority());
         Scope createdScope = service.createScope(scope);
         ScopeModel scopeModel = assembler.toModel(createdScope);
 
@@ -104,18 +108,17 @@ public class ScopeManagementController implements ScopeApi{
                 security = {},
                 servers = {}
     )
-    @RateLimiter(name = "limitA", fallbackMethod = "fallBack")
     public ResponseEntity<ScopeModel> getScopeByAuthority(@RequestParam(name = "authority") final String authority){
 
-        /*get the scope*/
-        Scope scope = service.getScopeByAuthority(authority);
-        /*model the scope*/
-        ScopeModel scopeModel = assembler.toModel(scope);
+        /*get the scopeEntity*/
+        Scope scopeEntity = service.getScopeByAuthority(authority);
+        /*model the scopeEntity*/
+        ScopeModel scopeModel = assembler.toModel(scopeEntity);
 
         /*respond*/
         return ResponseEntity.ok()
                 .cacheControl(cacheControl)
-                .lastModified(scope.getUpdatedOn())
+                .lastModified(scopeEntity.getUpdatedOn())
                 .body(scopeModel);
     }
 

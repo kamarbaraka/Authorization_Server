@@ -3,6 +3,7 @@ package org.kamar.authorization_server.authentication.service;
 import lombok.RequiredArgsConstructor;
 import org.kamar.authorization_server.authentication.entity.ClientApp;
 import org.kamar.authorization_server.authentication.repository.ClientAppRepository;
+import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -43,7 +44,7 @@ public class ClientAppDetails implements RegisteredClientRepository {
         /*find the client by client id*/
         ClientApp client = repository.findClientAppByClientId(clientId).orElseThrow();
 
-        /*get the registered client and retirn*/
+        /*get the registered client and return*/
         return getRegisteredClientFromClientApp(client);
     }
 
@@ -54,10 +55,17 @@ public class ClientAppDetails implements RegisteredClientRepository {
         rCBuilder.clientName(entity.getClientName());
         rCBuilder.clientId(entity.getClientId());
         rCBuilder.clientSecret(entity.getClientSecret());
-        rCBuilder.authorizationGrantTypes(set -> entity.getAuthorizationGrantTypes());
-        rCBuilder.scopes(scope -> entity.getScopes());
-        rCBuilder.redirectUris(uri -> entity.getRedirectUri());
-        rCBuilder.postLogoutRedirectUris(uris -> entity.getPostLogoutRedirectUris());
+
+        /*set the authorization grant types*/
+        entity.getAuthorizationGrantTypes()
+                .forEach(rCBuilder::authorizationGrantType);
+
+        /*set the scopes*/
+        entity.getScopes().stream().map(Scope::getAuthority).forEach(rCBuilder::scope);
+
+        /*set the redirect uris*/
+        rCBuilder.redirectUri(entity.getRedirectUri());
+        rCBuilder.postLogoutRedirectUri(entity.getPostLogoutRedirectUris());
 
         return rCBuilder.build();
     }

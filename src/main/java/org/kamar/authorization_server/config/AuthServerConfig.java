@@ -105,7 +105,7 @@ public class AuthServerConfig {
         RSAPublicKey publicKey = (RSAPublicKey) rsaKeyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) rsaKeyPair.getPrivate();
 
-        /*create a rsa key*/
+        /*create a json web key*/
         JWK jwk = new RSAKey.Builder(publicKey)
                 .privateKey(privateKey)
                 .keyID(UUID.randomUUID().toString())

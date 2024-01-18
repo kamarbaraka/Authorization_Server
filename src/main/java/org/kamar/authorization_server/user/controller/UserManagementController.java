@@ -1,6 +1,7 @@
 package org.kamar.authorization_server.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kamar.authorization_server.user.data.dto.UserRegistrationDto;
@@ -13,6 +14,7 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,9 +62,10 @@ public class UserManagementController {
                 requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
                 parameters = {},
                 responses = {},
-                security = {},
+                security = {@SecurityRequirement(name = "oauth2")},
                 servers = {}
     )
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserModel> getUserByUsername(@PathVariable("username") final String  username){
 
         /*get the user*/
