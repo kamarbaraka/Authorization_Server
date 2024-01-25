@@ -7,6 +7,9 @@ import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,11 +64,27 @@ public class ClientAppDetails implements RegisteredClientRepository {
                 .forEach(rCBuilder::authorizationGrantType);
 
         /*set the scopes*/
-        entity.getScopes().stream().map(Scope::getAuthority).forEach(rCBuilder::scope);
+        entity.getScopes().forEach(rCBuilder::scope);
 
         /*set the redirect uris*/
         rCBuilder.redirectUri(entity.getRedirectUri());
-        rCBuilder.postLogoutRedirectUri(entity.getPostLogoutRedirectUris());
+        rCBuilder.postLogoutRedirectUri(entity.getPostLogoutRedirectUri());
+
+        /*set the authentication methode*/
+        rCBuilder.clientAuthenticationMethod(entity.getClientAuthenticationMethod());
+
+        /*set the time the client ID was issued*/
+        rCBuilder.clientIdIssuedAt(entity.getClientIdIssuedAt());
+
+        /*set the client settings*/
+        rCBuilder.clientSettings(ClientSettings.builder()
+                .requireAuthorizationConsent(true)
+                .requireProofKey(false)
+                .build());
+
+        /*set the token settings*/
+        rCBuilder.tokenSettings(TokenSettings.builder()
+                .accessTokenFormat(OAuth2TokenFormat.REFERENCE).build());
 
         return rCBuilder.build();
     }

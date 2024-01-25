@@ -9,6 +9,7 @@ import org.kamar.authorization_server.user.event.UserRegistrationEvent;
 import org.kamar.authorization_server.user.exception.UserException;
 import org.kamar.authorization_server.user.repository.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -3,9 +3,10 @@ package org.kamar.authorization_server.authentication.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Data;
-import org.kamar.authorization_server.scope.entity.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -22,7 +23,7 @@ import java.util.*;
 public class ClientApp {
 
     @Transient
-    private static final String CLIENT_APP_ID = "client_app_id";
+    private static final String CLIENT_APP_ID = "client_app";
 
     @Id
     private String  id = UUID.randomUUID().toString();
@@ -38,26 +39,24 @@ public class ClientApp {
     private  String redirectUri;
 
     @Column(name = "logout_uri")
-    private String  postLogoutRedirectUris ;
+    private String postLogoutRedirectUri;
 
-    @ManyToMany
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "client_scopes", joinColumns = {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "scopes")
-    private final Set<Scope > scopes = new HashSet<>() ;
+    private final Set<String> scopes = new LinkedHashSet<>() ;
 
     @Column(name = "authentication_method")
-    private ClientAuthenticationMethod clientAuthenticationMethod = ClientAuthenticationMethod.PRIVATE_KEY_JWT;
+    private ClientAuthenticationMethod clientAuthenticationMethod = ClientAuthenticationMethod.CLIENT_SECRET_POST;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "client_grants", joinColumns = {
             @JoinColumn(name = CLIENT_APP_ID)
     })
     @Column(name = "grant_type")
-    private final Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>(
-            List.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN)
-    );
+    private final Set<AuthorizationGrantType> authorizationGrantTypes = new LinkedHashSet<>();
 
     private Instant clientIdIssuedAt = Instant.now();
 

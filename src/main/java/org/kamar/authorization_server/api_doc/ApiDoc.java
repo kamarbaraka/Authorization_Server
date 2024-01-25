@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.*;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.annotations.OpenAPI31;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -45,13 +46,12 @@ import org.springframework.web.bind.annotation.RestController;
         in = SecuritySchemeIn.HEADER,
         flows = @OAuthFlows(
                 authorizationCode = @OAuthFlow(
-                        authorizationUrl = "",
-                        tokenUrl = "",
-                        refreshUrl = "",
+                        authorizationUrl = "http://localhost:9080/oauth2/authorize",
+                        tokenUrl = "http://localhost:9080/oauth2/token",
+                        refreshUrl = "http://localhost:9080/oauth2/token",
                         scopes = {
-                                @OAuthScope(name = "register user", description = "able to register a user."),
-                                @OAuthScope(name = "get user data",description = "able to get the user's info."),
-                                @OAuthScope(name = "profile", description = "get the requested user profile.")
+                                @OAuthScope(name = OidcScopes.OPENID, description = "."),
+                                @OAuthScope(name = OidcScopes.PROFILE,description = "able to get the user's info."),
                         }
                 )
         )

@@ -13,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -39,8 +40,8 @@ public class AuthServerConfig {
     /**
      * Builds the security filter chain for the OAuth2 authorization server.
      *
-     * @param httpSecurity the HttpSecurity instance to configure
-     * @return the configured SecurityFilterChain
+     * @param httpSecurity httpSecurity instance to configure
+     * @return configured SecurityFilterChain
      * @throws Exception if an error occurs during configuration
      */
     @Bean
@@ -53,7 +54,13 @@ public class AuthServerConfig {
         /*enable OIDC*/
         httpSecurity
                 .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults());
+                .oidc(oidc ->
+                    oidc.userInfoEndpoint(Customizer.withDefaults())
+                            .logoutEndpoint(Customizer.withDefaults())
+                )
+                .deviceAuthorizationEndpoint(Customizer.withDefaults())
+                .deviceVerificationEndpoint(Customizer.withDefaults());
+
 
         /*configure the redirection endpoint when the user is not authenticated*/
         httpSecurity
@@ -92,7 +99,7 @@ public class AuthServerConfig {
     }
 
     /**
-     * Returns a JWKSource implementation that generates a RSA key pair and creates a JWKSet containing a RSA key.
+     * Returns a JWKSource implementation that generates an RSA key pair and creates a JWKSet containing an RSA key.
      *
      * @return a JWKSource instance representing the generated RSA key
      */
@@ -118,7 +125,7 @@ public class AuthServerConfig {
     /**
      * Returns a JwtDecoder implementation that uses the provided JWKSource to decode JWT tokens.
      *
-     * @param jwkSource the JWKSource to use for decoding JWT tokens
+     * @param jwkSource jWKSource to use for decoding JWT tokens
      * @return a JwtDecoder instance that can decode JWT tokens
      */
     @Bean
@@ -136,7 +143,10 @@ public class AuthServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings(){
         /*build the authorization server settings*/
-        return AuthorizationServerSettings.builder().build();
+        return AuthorizationServerSettings.builder()
+                .deviceAuthorizationEndpoint("/connect/v1/device_authorize")
+                .deviceVerificationEndpoint("/connect/v1/device_verify")
+                .build();
     }
 
 }

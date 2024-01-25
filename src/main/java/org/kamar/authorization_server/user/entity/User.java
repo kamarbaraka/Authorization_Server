@@ -2,23 +2,23 @@ package org.kamar.authorization_server.user.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.kamar.authorization_server.scope.entity.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * representation of the app user.
  * @author kamar baraka.*/
 
-@Component("appUser")
-@Entity(name = "app_users")
+@Entity(name = "users")
 @Data
+@Component
 public class User implements UserDetails {
 
     @Id
@@ -55,7 +55,8 @@ public class User implements UserDetails {
     private boolean enabled = true;
 
     @Column(name = "date_created", nullable = false, updatable = false)
-    private final LocalDate createdOn = LocalDate.now();
+    private final Instant createdOn = Instant.now();
 
     private Instant updatedOn = Instant.now();
+
 }
