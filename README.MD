@@ -1,5 +1,7 @@
 # OAuth2 OpenID Connect authorization server.
 This is an implementation of an Oauth2 authorization server.
+For furthur documentation, run the application and hit "/swagger-ui.html".
+
 
 ## Requirements
 This project requires the following to run:
