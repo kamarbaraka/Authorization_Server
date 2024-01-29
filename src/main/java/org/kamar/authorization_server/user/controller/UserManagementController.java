@@ -62,7 +62,7 @@ public class UserManagementController {
                 requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(),
                 parameters = {},
                 responses = {},
-                security = {@SecurityRequirement(name = "oauth2")},
+                security = {@SecurityRequirement(name = "oauth2", scopes = {"profile", "openid"})},
                 servers = {}
     )
     @PreAuthorize("isAuthenticated()")

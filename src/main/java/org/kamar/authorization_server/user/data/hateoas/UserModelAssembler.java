@@ -9,6 +9,7 @@ import org.kamar.authorization_server.user.entity.User;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,16 +20,16 @@ import org.springframework.stereotype.Service;
 public class UserModelAssembler extends RepresentationModelAssemblerSupport<User, UserModel> {
 
 
-    private final UserModel model;
 
-    public UserModelAssembler(UserModel model) {
+    public UserModelAssembler() {
         super(UserManagementController.class, UserModel.class);
-        this.model = model;
     }
 
     @Override
+    @NotNull
     public UserModel toModel(@NotNull User entity) {
 
+        UserModel model = new UserModel();
         /*map the entity to the model*/
         model.setUserId(entity.getUserId());
         model.setUsername(entity.getUsername());
@@ -45,8 +46,7 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
                 .getUserScopesByUsername(entity.getUsername())).withRel("authorities");
 
         /*add the links*/
-        model.add(authoritiesLink);
-        model.add(selfLink);
+        model.add(authoritiesLink, selfLink);
 
         return model;
 

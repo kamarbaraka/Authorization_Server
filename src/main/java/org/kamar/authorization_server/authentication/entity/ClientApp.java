@@ -28,17 +28,19 @@ public class ClientApp {
     @Id
     private String  id = UUID.randomUUID().toString();
 
+    @Column(unique = true, nullable = false)
     private String clientId = UUID.randomUUID().toString();
 
+    @Column(nullable = false)
     private String clientName;
 
     @Column(name = "client_secret")
     private String clientSecret = UUID.randomUUID().toString();
 
-    @Column(name = "redirect_uri")
+    @Column(name = "redirect_uri", nullable = false)
     private  String redirectUri;
 
-    @Column(name = "logout_uri")
+    @Column(name = "logout_uri", nullable = false)
     private String postLogoutRedirectUri;
 
     @ElementCollection(fetch = FetchType.EAGER)
